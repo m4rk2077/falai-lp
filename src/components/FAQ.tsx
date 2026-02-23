@@ -73,7 +73,7 @@ const faqs = [
   {
     question: "Quanto custa o FALAI?",
     answer:
-      "Durante o período de Beta, o acesso é gratuito para os primeiros participantes. Após o lançamento oficial, teremos planos acessíveis. Quem entrar no Beta terá condições especiais.",
+      "O plano Start custa R$ 29/mês e inclui 15h/mês de ditado (~30 min/dia), histórico de 30 dias, 3 estilos de texto, colar automático e suporte prioritário no WhatsApp. O plano Pro custa R$ 79/mês e inclui ditado ilimitado, histórico completo com busca, melhor correção de texto e prioridade de processamento. Teste grátis por 3 dias, 15 min/dia, sem cartão. Cancele quando quiser.",
   },
   {
     question: "A transcrição funciona bem com sotaque?",
