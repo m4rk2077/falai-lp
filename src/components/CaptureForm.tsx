@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, CheckCircle, Loader2, ChevronDown } from "lucide-react";
 
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+  if (digits.length <= 2) return digits.length ? `(${digits}` : "";
+  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  if (digits.length <= 10)
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
 const schema = z.object({
   nome: z.string().min(2, "Informe seu nome"),
   email: z.string().email("E-mail inválido"),
   whatsapp: z
     .string()
-    .min(10, "WhatsApp inválido")
-    .regex(/^[\d\s()+-]+$/, "Apenas números"),
+    .regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, "Informe um número válido"),
   origem: z.string().min(1, "Selecione uma opção"),
 });
 
@@ -155,9 +163,15 @@ export function CaptureForm() {
                   WhatsApp
                 </label>
                 <input
-                  {...register("whatsapp")}
+                  {...register("whatsapp", {
+                    onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                      e.target.value = formatPhone(e.target.value);
+                    },
+                  })}
                   type="tel"
-                  placeholder="(11) 99999-9999"
+                  inputMode="numeric"
+                  maxLength={15}
+                  placeholder="(31) 99999-9999"
                   className={inputClasses}
                 />
                 {errors.whatsapp && (
