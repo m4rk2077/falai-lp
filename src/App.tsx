@@ -4,6 +4,7 @@ import { SocialProof } from "./components/SocialProof";
 import { Benefits } from "./components/Benefits";
 import { HowItWorks } from "./components/HowItWorks";
 import { DemoVideo } from "./components/DemoVideo";
+import { FAQ } from "./components/FAQ";
 import { CaptureForm } from "./components/CaptureForm";
 import { Footer } from "./components/Footer";
 import { FloatingCTA } from "./components/FloatingCTA";
@@ -17,6 +18,7 @@ function App() {
       <SocialProof />
       <Benefits />
       <HowItWorks />
+      <FAQ />
       <CaptureForm />
       <Footer />
       <FloatingCTA />
