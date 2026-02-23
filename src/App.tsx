@@ -2,6 +2,7 @@ import { Hero } from "./components/Hero";
 import { SocialProof } from "./components/SocialProof";
 import { Benefits } from "./components/Benefits";
 import { HowItWorks } from "./components/HowItWorks";
+import { DemoVideo } from "./components/DemoVideo";
 import { CaptureForm } from "./components/CaptureForm";
 import { Footer } from "./components/Footer";
 import { FloatingCTA } from "./components/FloatingCTA";
@@ -13,6 +14,7 @@ function App() {
       <SocialProof />
       <Benefits />
       <HowItWorks />
+      <DemoVideo />
       <CaptureForm />
       <Footer />
       <FloatingCTA />
