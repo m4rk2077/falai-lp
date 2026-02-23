@@ -1,4 +1,5 @@
 import { Hero } from "./components/Hero";
+import { AppsBar } from "./components/AppsBar";
 import { SocialProof } from "./components/SocialProof";
 import { Benefits } from "./components/Benefits";
 import { HowItWorks } from "./components/HowItWorks";
@@ -11,6 +12,7 @@ function App() {
   return (
     <div className="min-h-screen">
       <Hero />
+      <AppsBar />
       <DemoVideo />
       <SocialProof />
       <Benefits />
