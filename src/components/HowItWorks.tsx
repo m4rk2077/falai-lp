@@ -49,7 +49,7 @@ export function HowItWorks() {
             Como funciona
           </h2>
           <p className="text-neutral-400 max-w-md mx-auto">
-            3 passos. Sem instalacao complicada, sem treinamento.
+            3 passos. Sem instalação complicada, sem treinamento.
           </p>
         </motion.div>
 
@@ -59,7 +59,7 @@ export function HowItWorks() {
               number="1"
               icon={<Mic className="w-7 h-7" />}
               title="Fale"
-              description="Aperte o atalho e fale naturalmente. Descreva o imovel, responda o cliente, anote a visita."
+              description="Aperte o atalho e fale naturalmente. Descreva o imóvel, responda o cliente, anote a visita."
               delay={0}
             />
           </div>

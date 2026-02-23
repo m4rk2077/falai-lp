@@ -35,15 +35,15 @@ function BenefitCard({ icon, title, description, delay }: BenefitCardProps) {
 const benefits = [
   {
     icon: <Mic className="w-7 h-7" />,
-    title: "Transcricao Instantanea",
+    title: "Transcrição Instantânea",
     description:
-      "Fale naturalmente, o texto aparece em segundos. Sem espera, sem complicacao.",
+      "Fale naturalmente, o texto aparece em segundos. Sem espera, sem complicação.",
   },
   {
     icon: <Sparkles className="w-7 h-7" />,
-    title: "Correcao Automatica",
+    title: "Correção Automática",
     description:
-      "A IA corrige gramatica e formata o texto. Pronto pra usar, sem revisar.",
+      "A IA corrige gramática e formata o texto. Pronto pra usar, sem revisar.",
   },
   {
     icon: <ClipboardPaste className="w-7 h-7" />,
@@ -55,7 +55,7 @@ const benefits = [
     icon: <Zap className="w-7 h-7" />,
     title: "Simples de Usar",
     description:
-      "Aperte um atalho, fale, solte. Sem configuracao, sem treinamento.",
+      "Aperte um atalho, fale, solte. Sem configuração, sem treinamento.",
   },
 ];
 
@@ -73,7 +73,7 @@ export function Benefits() {
             Por que corretores escolhem o FALAI
           </h2>
           <p className="text-neutral-400 max-w-lg mx-auto">
-            Tudo que voce precisa pra parar de digitar e comecar a produzir.
+            Tudo que você precisa pra parar de digitar e começar a produzir.
           </p>
         </motion.div>
 

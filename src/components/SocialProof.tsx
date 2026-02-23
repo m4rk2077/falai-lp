@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const stats = [
   { value: "500+", label: "Corretores na fila" },
   { value: "2h+", label: "Economizadas por dia" },
-  { value: "98%", label: "Taxa de precisao" },
+  { value: "98%", label: "Taxa de precisão" },
 ];
 
 export function SocialProof() {
@@ -36,11 +36,11 @@ export function SocialProof() {
           className="mt-8 text-center"
         >
           <p className="text-neutral-300 italic text-sm sm:text-base max-w-xl mx-auto">
-            "Eu gastava a manha inteira digitando descricao de imovel.
-            Agora falo em 2 minutos e ta pronto."
+            "Eu gastava a manhã inteira digitando descrição de imóvel.
+            Agora falo em 2 minutos e tá pronto."
           </p>
           <cite className="block text-xs text-neutral-500 mt-2 not-italic">
-            — Marcos R., corretor ha 18 anos em SP
+            — Marcos R., corretor há 18 anos em SP
           </cite>
         </motion.blockquote>
       </div>

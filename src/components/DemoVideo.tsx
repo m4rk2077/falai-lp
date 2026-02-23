@@ -17,15 +17,15 @@ export function DemoVideo() {
           className="text-center mb-8 sm:mb-12"
         >
           <span className="inline-block mb-4 px-4 py-1.5 text-[0.75rem] font-semibold tracking-wider uppercase rounded-full border border-brand-mid/40 text-brand-light bg-brand-mid/10">
-            Demonstracao
+            Demonstração
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             <span className="bg-gradient-to-r from-brand-mid to-brand-light bg-clip-text text-transparent">
-              Veja o FALAI em acao
+              Veja o FALAI em ação
             </span>
           </h2>
           <p className="text-neutral-400 max-w-md mx-auto">
-            Assista como e simples transformar sua voz em texto pronto em
+            Assista como é simples transformar sua voz em texto pronto em
             segundos.
           </p>
         </motion.div>

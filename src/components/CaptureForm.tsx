@@ -7,12 +7,12 @@ import { Send, CheckCircle, Loader2, ChevronDown } from "lucide-react";
 
 const schema = z.object({
   nome: z.string().min(2, "Informe seu nome"),
-  email: z.string().email("E-mail invalido"),
+  email: z.string().email("E-mail inválido"),
   whatsapp: z
     .string()
-    .min(10, "WhatsApp invalido")
-    .regex(/^[\d\s()+-]+$/, "Apenas numeros"),
-  origem: z.string().min(1, "Selecione uma opcao"),
+    .min(10, "WhatsApp inválido")
+    .regex(/^[\d\s()+-]+$/, "Apenas números"),
+  origem: z.string().min(1, "Selecione uma opção"),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -49,7 +49,7 @@ export function CaptureForm() {
       setSubmitted(true);
     } catch {
       setServerError(
-        "Nao foi possivel enviar. Tente novamente em alguns segundos."
+        "Não foi possível enviar. Tente novamente em alguns segundos."
       );
     }
   }
@@ -84,7 +84,7 @@ export function CaptureForm() {
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
             </span>
             <span className="text-sm text-green-400 font-medium">
-              247 corretores ja se cadastraram
+              247 corretores já se cadastraram
             </span>
           </div>
         </motion.div>
@@ -182,7 +182,7 @@ export function CaptureForm() {
                     </option>
                     <option value="whatsapp-grupo">Grupo de WhatsApp</option>
                     <option value="instagram">Instagram</option>
-                    <option value="indicacao">Indicacao de colega</option>
+                    <option value="indicacao">Indicação de colega</option>
                     <option value="google">Google / Pesquisa</option>
                     <option value="evento">Evento do setor</option>
                     <option value="outro">Outro</option>
@@ -217,7 +217,7 @@ export function CaptureForm() {
               </button>
 
               <p className="text-xs text-neutral-500 text-center">
-                Seus dados estao seguros. Sem spam, prometido.
+                Seus dados estão seguros. Sem spam, prometido.
               </p>
             </motion.form>
           )}

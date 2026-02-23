@@ -50,7 +50,7 @@ export function Hero() {
         {/* Subtitle */}
         <p className="text-lg sm:text-xl text-neutral-300 mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed">
           O FALAI transforma sua voz em texto pronto — no WhatsApp, no e-mail,
-          nos portais, em qualquer lugar onde voce digita.
+          nos portais, em qualquer lugar onde você digita.
         </p>
 
         {/* CTA */}
