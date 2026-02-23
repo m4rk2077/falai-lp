@@ -11,10 +11,10 @@ function App() {
   return (
     <div className="min-h-screen">
       <Hero />
+      <DemoVideo />
       <SocialProof />
       <Benefits />
       <HowItWorks />
-      <DemoVideo />
       <CaptureForm />
       <Footer />
       <FloatingCTA />
