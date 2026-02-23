@@ -2,6 +2,13 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Environment setup
+
+Create a `.env` file (you can copy from `.env.example`) and configure:
+
+- `VITE_META_PIXEL_ID`: Meta Pixel ID used to initialize `PageView` and `Lead`.
+- `VITE_LEAD_WEBHOOK_URL`: webhook endpoint that receives lead submissions from the beta form.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, CheckCircle, Loader2, ChevronDown } from "lucide-react";
+import { createMetaEventId, trackMetaStandardEvent } from "../lib/metaPixel";
 
 function formatPhone(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -25,8 +26,30 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const WEBHOOK_URL =
+const DEFAULT_WEBHOOK_URL =
   "https://editor.otaldogestorai.com.br/webhook/falai-beta";
+const WEBHOOK_URL =
+  import.meta.env.VITE_LEAD_WEBHOOK_URL?.trim() || DEFAULT_WEBHOOK_URL;
+
+function getUtmParams(): Record<string, string> {
+  const keys = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_term",
+    "utm_content",
+  ];
+
+  const params = new URLSearchParams(window.location.search);
+  const utm: Record<string, string> = {};
+
+  for (const key of keys) {
+    const value = params.get(key);
+    if (value) utm[key] = value;
+  }
+
+  return utm;
+}
 
 export function CaptureForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -43,6 +66,9 @@ export function CaptureForm() {
 
   async function onSubmit(data: FormData) {
     setServerError("");
+    const eventId = createMetaEventId();
+    const utm = getUtmParams();
+
     try {
       const res = await fetch(WEBHOOK_URL, {
         method: "POST",
@@ -51,9 +77,22 @@ export function CaptureForm() {
           ...data,
           source: "lp-beta",
           timestamp: new Date().toISOString(),
+          eventId,
+          pageUrl: window.location.href,
+          utm,
         }),
       });
       if (!res.ok) throw new Error("Erro ao enviar");
+
+      trackMetaStandardEvent(
+        "Lead",
+        {
+          content_name: "Cadastro Beta FALAI",
+          source: "lp-beta",
+          status: "submitted",
+        },
+        eventId
+      );
       setSubmitted(true);
     } catch {
       setServerError(
