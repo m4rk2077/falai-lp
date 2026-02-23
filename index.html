@@ -31,7 +31,7 @@
       })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
 
       const metaPixelId = "%VITE_META_PIXEL_ID%";
-      if (/^\d{8,}$/.test(metaPixelId)) {
+      if (metaPixelId && !metaPixelId.includes("%")) {
         fbq("init", metaPixelId);
         fbq("track", "PageView");
       }
