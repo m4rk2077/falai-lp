@@ -26,10 +26,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const DEFAULT_WEBHOOK_URL =
-  "https://editor.otaldogestorai.com.br/webhook/falai-beta";
-const WEBHOOK_URL =
-  import.meta.env.VITE_LEAD_WEBHOOK_URL?.trim() || DEFAULT_WEBHOOK_URL;
+const WEBHOOK_URL = "/api/lead";
 
 function getUtmParams(): Record<string, string> {
   const keys = [
@@ -82,7 +79,16 @@ export function CaptureForm() {
           utm,
         }),
       });
-      if (!res.ok) throw new Error("Erro ao enviar");
+      if (!res.ok) {
+        let reason = `status_${res.status}`;
+        try {
+          const body = (await res.json()) as { error?: string };
+          if (body?.error) reason = body.error;
+        } catch {
+          // Ignore JSON parse failures and keep status-based reason.
+        }
+        throw new Error(reason);
+      }
 
       trackMetaStandardEvent(
         "Lead",
@@ -94,7 +100,8 @@ export function CaptureForm() {
         eventId
       );
       setSubmitted(true);
-    } catch {
+    } catch (error) {
+      console.error("Falha ao enviar lead", { endpoint: WEBHOOK_URL, error });
       setServerError(
         "Não foi possível enviar. Tente novamente em alguns segundos."
       );

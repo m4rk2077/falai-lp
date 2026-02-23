@@ -1,6 +1,24 @@
+import { useRef } from "react";
 import { motion } from "framer-motion";
+import { createMetaEventId, trackMetaCustomEvent } from "../lib/metaPixel";
 
 export function DemoVideo() {
+  const hasTrackedVideoClick = useRef(false);
+
+  function handleVideoInteraction() {
+    if (hasTrackedVideoClick.current) return;
+    hasTrackedVideoClick.current = true;
+
+    trackMetaCustomEvent(
+      "VideoClick",
+      {
+        content_name: "Demo FALAI",
+        content_type: "video",
+      },
+      createMetaEventId()
+    );
+  }
+
   return (
     <section id="demo" className="relative py-12 sm:py-20 lg:py-28 px-4 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
@@ -39,7 +57,10 @@ export function DemoVideo() {
         >
           <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-brand-dark via-brand-mid to-brand-light opacity-60" />
 
-          <div className="relative m-[1px] rounded-2xl overflow-hidden bg-surface shadow-2xl shadow-brand-mid/20">
+          <div
+            className="relative m-[1px] rounded-2xl overflow-hidden bg-surface shadow-2xl shadow-brand-mid/20"
+            onPointerDown={handleVideoInteraction}
+          >
             <wistia-player
               media-id="fxcch43ar9"
               aspect="1.7777777777777777"

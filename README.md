@@ -6,8 +6,10 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Create a `.env` file (you can copy from `.env.example`) and configure:
 
-- `VITE_META_PIXEL_ID`: Meta Pixel ID used to initialize `PageView` and `Lead`.
-- `VITE_LEAD_WEBHOOK_URL`: webhook endpoint that receives lead submissions from the beta form.
+- `VITE_META_PIXEL_ID`: Meta Pixel ID used to initialize and track events on the landing page.
+- `LEAD_WEBHOOK_URL`: webhook endpoint used by `/api/lead` to receive beta form submissions.
+
+On Vercel, configure `LEAD_WEBHOOK_URL` as a server-side environment variable (without `VITE_`).
 
 Currently, two official plugins are available:
 

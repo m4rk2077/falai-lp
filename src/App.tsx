@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Hero } from "./components/Hero";
 import { AppsBar } from "./components/AppsBar";
 import { SocialProof } from "./components/SocialProof";
@@ -8,8 +9,16 @@ import { FAQ } from "./components/FAQ";
 import { CaptureForm } from "./components/CaptureForm";
 import { Footer } from "./components/Footer";
 import { FloatingCTA } from "./components/FloatingCTA";
+import { trackMetaStandardEvent } from "./lib/metaPixel";
 
 function App() {
+  useEffect(() => {
+    trackMetaStandardEvent("ViewContent", {
+      content_name: "Falai LP Beta",
+      content_type: "landing_page",
+    });
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Hero />

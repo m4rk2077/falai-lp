@@ -1,5 +1,5 @@
-type FbqCommand = "track";
-type FbqStandardEvent = "Lead";
+type FbqCommand = "track" | "trackCustom";
+type FbqStandardEvent = "Lead" | "ViewContent";
 
 type FbqFunction = {
   (...args: unknown[]): void;
@@ -45,4 +45,14 @@ export function trackMetaStandardEvent(
   if (!hasValidPixelId()) return;
   const options = eventId ? { eventID: eventId } : undefined;
   sendFbq("track", event, params, options);
+}
+
+export function trackMetaCustomEvent(
+  eventName: string,
+  params?: Record<string, unknown>,
+  eventId?: string
+) {
+  if (!hasValidPixelId()) return;
+  const options = eventId ? { eventID: eventId } : undefined;
+  sendFbq("trackCustom", eventName, params, options);
 }
