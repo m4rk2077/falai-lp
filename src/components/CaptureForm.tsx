@@ -26,26 +26,71 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const WEBHOOK_URL = "/api/lead";
+type SubmitError = {
+  error?: string;
+  message?: string;
+};
 
-function getUtmParams(): Record<string, string> {
-  const keys = [
-    "utm_source",
-    "utm_medium",
-    "utm_campaign",
-    "utm_term",
-    "utm_content",
-  ];
+const LEAD_API_URL = import.meta.env.VITE_LEAD_API_URL || "/api/lead";
+const ATTR_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+  "fbclid",
+  "gclid",
+] as const;
 
+type Attribution = Record<(typeof ATTR_KEYS)[number], string> & {
+  referrer: string;
+  page_path: string;
+  landing_variant: string;
+};
+
+function getAttribution(): Attribution {
   const params = new URLSearchParams(window.location.search);
-  const utm: Record<string, string> = {};
+  const out = {} as Attribution;
 
-  for (const key of keys) {
-    const value = params.get(key);
-    if (value) utm[key] = value;
+  for (const key of ATTR_KEYS) {
+    const fromUrl = (params.get(key) || "").trim();
+    if (fromUrl) {
+      localStorage.setItem(`falai_${key}`, fromUrl);
+      out[key] = fromUrl;
+      continue;
+    }
+    out[key] = (localStorage.getItem(`falai_${key}`) || "").trim();
   }
 
-  return utm;
+  const variant = (params.get("variant") || params.get("ab") || "").trim();
+  if (variant) {
+    localStorage.setItem("falai_landing_variant", variant);
+  }
+
+  out.referrer = document.referrer || "";
+  out.page_path = window.location.pathname || "/";
+  out.landing_variant = (localStorage.getItem("falai_landing_variant") || "").trim();
+
+  return out;
+}
+
+function mapServerError(err?: SubmitError): string {
+  if (!err?.error) {
+    return "Não foi possível enviar agora. Tente novamente em alguns segundos.";
+  }
+  if (err.error === "invalid_payload") {
+    return "Dados inválidos. Revise os campos e tente novamente.";
+  }
+  if (err.error === "webhook_rejected_request") {
+    return "Servidor de cadastro indisponível. Tente novamente em alguns segundos.";
+  }
+  if (err.error === "lead_capture_failed") {
+    return "Instabilidade temporária no servidor. Tente novamente em alguns segundos.";
+  }
+  if (err.error === "internal_error" && err.message?.includes("Missing env")) {
+    return "Configuração interna pendente. Avise o suporte para finalizar a integração.";
+  }
+  return "Não foi possível enviar agora. Tente novamente em alguns segundos.";
 }
 
 export function CaptureForm() {
@@ -64,30 +109,36 @@ export function CaptureForm() {
   async function onSubmit(data: FormData) {
     setServerError("");
     const eventId = createMetaEventId();
-    const utm = getUtmParams();
 
     try {
-      const res = await fetch(WEBHOOK_URL, {
+      const attribution = getAttribution();
+      const res = await fetch(LEAD_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...data,
+          nome: data.nome,
+          email: data.email,
+          whatsapp: data.whatsapp,
+          origem: data.origem,
+          motivo: `Origem declarada: ${data.origem}`,
+          origem_form: "lp_beta_v1",
+          consent_version: "2026-02",
           source: "lp-beta",
           timestamp: new Date().toISOString(),
           eventId,
           pageUrl: window.location.href,
-          utm,
+          ...attribution,
         }),
       });
+
       if (!res.ok) {
-        let reason = `status_${res.status}`;
+        let details: SubmitError = {};
         try {
-          const body = (await res.json()) as { error?: string };
-          if (body?.error) reason = body.error;
+          details = (await res.json()) as SubmitError;
         } catch {
-          // Ignore JSON parse failures and keep status-based reason.
+          details = {};
         }
-        throw new Error(reason);
+        throw new Error(mapServerError(details));
       }
 
       trackMetaStandardEvent(
@@ -101,9 +152,11 @@ export function CaptureForm() {
       );
       setSubmitted(true);
     } catch (error) {
-      console.error("Falha ao enviar lead", { endpoint: WEBHOOK_URL, error });
+      console.error("Falha ao enviar lead", { endpoint: LEAD_API_URL, error });
       setServerError(
-        "Não foi possível enviar. Tente novamente em alguns segundos."
+        error instanceof Error
+          ? error.message
+          : "Não foi possível enviar agora. Tente novamente em alguns segundos."
       );
     }
   }

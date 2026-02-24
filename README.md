@@ -1,3 +1,39 @@
+# FALAI LP
+
+Landing page do beta com captura de leads integrada ao Supabase via backend da Vercel (`/api/lead`).
+
+## Variáveis de ambiente (Vercel)
+
+Configure no projeto da Vercel:
+
+- `FALAI_LEAD_CAPTURE_URL`
+- `FALAI_LEAD_ACTIVE_KEY_ID`
+- `FALAI_LEAD_WEBHOOK_SECRET_V1` (ou `FALAI_LEAD_WEBHOOK_SECRET_<KEY_ID>`)
+
+Use `.env.example` como referência.
+
+## Fluxo de captura
+
+1. Formulário (`src/components/CaptureForm.tsx`) envia para `/api/lead`.
+2. A função `api/lead.js` assina o payload com HMAC SHA-256.
+3. O backend chama `POST /functions/v1/lead_capture` no Supabase.
+4. O Supabase grava em `leads_beta` e `lead_events`.
+
+## Desenvolvimento local
+
+```bash
+npm install
+npm run dev
+```
+
+Obs: para testar a submissao real do form localmente usando a rota `/api/lead`, rode com `vercel dev`.
+
+## Build
+
+```bash
+npm run build
+```
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
